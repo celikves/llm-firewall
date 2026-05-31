@@ -1,0 +1,1177 @@
+[
+  {
+    "id": 1,
+    "text": "Contact john.doe@email.com for support.",
+    "spans": [
+      {
+        "value": "john.doe@email.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "My email is alice.smith@company.org and phone +1-555-987-6543.",
+    "spans": [
+      {
+        "value": "alice.smith@company.org",
+        "type": "email"
+      },
+      {
+        "value": "+1-555-987-6543",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "text": "Card number 4111-1111-1111-1111 was declined.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-1111",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "Use api_key=sk-test1234567890abcdef for authentication.",
+    "spans": [
+      {
+        "value": "sk-test1234567890abcdef",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "Hello, I am John Doe from Acme Corp in Paris.",
+    "spans": [
+      {
+        "value": "John Doe",
+        "type": "person"
+      },
+      {
+        "value": "Acme Corp",
+        "type": "org"
+      },
+      {
+        "value": "Paris",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "text": "Reach Maria Garcia at maria.g@health.io or 555-123-4567.",
+    "spans": [
+      {
+        "value": "maria.g@health.io",
+        "type": "email"
+      },
+      {
+        "value": "555-123-4567",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "text": "Payment via 5500 0000 0000 0004 completed successfully.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0004",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "text": "Config: OPENAI_API_KEY=sk-proj-abcdefghijklmnopqrstuvwxyz123456",
+    "spans": [
+      {
+        "value": "sk-proj-abcdefghijklmnopqrstuvwxyz123456",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "text": "Dr. Emily Chen works at Stanford University in California.",
+    "spans": [
+      {
+        "value": "Emily Chen",
+        "type": "person"
+      },
+      {
+        "value": "Stanford University",
+        "type": "org"
+      },
+      {
+        "value": "California",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "text": "No sensitive data in this generic technical explanation about TCP/IP.",
+    "spans": []
+  },
+  {
+    "id": 11,
+    "text": "Send invoice to billing@startup.io; CC ceo@startup.io.",
+    "spans": [
+      {
+        "value": "billing@startup.io",
+        "type": "email"
+      },
+      {
+        "value": "ceo@startup.io",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "text": "Customer Robert Williams called from +44 20 7946 0958.",
+    "spans": [
+      {
+        "value": "Robert Williams",
+        "type": "person"
+      },
+      {
+        "value": "+44 20 7946 0958",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "text": "Token sk-live-9876543210abcdefghijklmnop found in logs.",
+    "spans": [
+      {
+        "value": "sk-live-9876543210abcdefghijklmnop",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "text": "Meeting with Google team in London next week.",
+    "spans": [
+      {
+        "value": "Google",
+        "type": "org"
+      },
+      {
+        "value": "London",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "text": "The model explained gradient descent without exposing user data.",
+    "spans": []
+  },
+  {
+    "id": 16,
+    "text": "Backup contact: support_team@example.net, tel: 0212 555 0101.",
+    "spans": [
+      {
+        "value": "support_team@example.net",
+        "type": "email"
+      },
+      {
+        "value": "0212 555 0101",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "text": "Patient Jane Smith, card 3782 822463 10005, lives in Boston.",
+    "spans": [
+      {
+        "value": "Jane Smith",
+        "type": "person"
+      },
+      {
+        "value": "3782 822463 10005",
+        "type": "credit_card"
+      },
+      {
+        "value": "Boston",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "text": "Environment variable API_KEY=prod-secret-key-abc123xyz set.",
+    "spans": [
+      {
+        "value": "prod-secret-key-abc123xyz",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "text": "Discuss cosine similarity and vector embeddings in NLP.",
+    "spans": []
+  },
+  {
+    "id": 20,
+    "text": "HR note: Michael Brown (m.brown@corp.com) updated payroll.",
+    "spans": [
+      {
+        "value": "Michael Brown",
+        "type": "person"
+      },
+      {
+        "value": "m.brown@corp.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "text": "Please email user20@domain20.com for verification.",
+    "spans": [
+      {
+        "value": "user20@domain20.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "text": "Transaction approved for card 5500 0000 0000 0021.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0021",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "text": "Debug output: api_key=sk-auto-0022abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0022abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "text": "Ahmet Yilmaz from Microsoft visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Ahmet Yilmaz",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "text": "Callback requested at +1-555-124-2024 regarding order 24.",
+    "spans": [
+      {
+        "value": "+1-555-124-2024",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "text": "Please email test25.user@mail25.org for verification.",
+    "spans": [
+      {
+        "value": "test25.user@mail25.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "text": "Transaction approved for card 4111-1111-1111-0026.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0026",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "text": "Debug output: api_key=sk-auto-0027abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0027abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "text": "Ahmet Yilmaz from Amazon Web Services visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Ahmet Yilmaz",
+        "type": "person"
+      },
+      {
+        "value": "Amazon Web Services",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "text": "Callback requested at +1-555-129-2029 regarding order 29.",
+    "spans": [
+      {
+        "value": "+1-555-129-2029",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "text": "Please email user30@domain30.com for verification.",
+    "spans": [
+      {
+        "value": "user30@domain30.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "text": "Transaction approved for card 5500 0000 0000 0031.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0031",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "text": "Debug output: api_key=sk-auto-0032abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0032abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "text": "David Lee from Microsoft visited New York for a conference.",
+    "spans": [
+      {
+        "value": "David Lee",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "New York",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "text": "Callback requested at +1-555-134-2034 regarding order 34.",
+    "spans": [
+      {
+        "value": "+1-555-134-2034",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "text": "Please email test35.user@mail35.org for verification.",
+    "spans": [
+      {
+        "value": "test35.user@mail35.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "text": "Transaction approved for card 4111-1111-1111-0036.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0036",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "text": "Debug output: api_key=sk-auto-0037abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0037abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "text": "Sarah Johnson from Ege University visited New York for a conference.",
+    "spans": [
+      {
+        "value": "Sarah Johnson",
+        "type": "person"
+      },
+      {
+        "value": "Ege University",
+        "type": "org"
+      },
+      {
+        "value": "New York",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "text": "Callback requested at +1-555-139-2039 regarding order 39.",
+    "spans": [
+      {
+        "value": "+1-555-139-2039",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "text": "Please email user40@domain40.com for verification.",
+    "spans": [
+      {
+        "value": "user40@domain40.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "text": "Transaction approved for card 5500 0000 0000 0041.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0041",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "text": "Debug output: api_key=sk-auto-0042abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0042abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "text": "Lisa Park from Microsoft visited New York for a conference.",
+    "spans": [
+      {
+        "value": "Lisa Park",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "New York",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "text": "Callback requested at +1-555-144-2044 regarding order 44.",
+    "spans": [
+      {
+        "value": "+1-555-144-2044",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "text": "Please email test45.user@mail45.org for verification.",
+    "spans": [
+      {
+        "value": "test45.user@mail45.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "text": "Transaction approved for card 4111-1111-1111-0046.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0046",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "text": "Debug output: api_key=sk-auto-0047abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0047abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "text": "James Wilson from Microsoft visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "James Wilson",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "text": "Callback requested at +1-555-149-2049 regarding order 49.",
+    "spans": [
+      {
+        "value": "+1-555-149-2049",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "text": "Please email user50@domain50.com for verification.",
+    "spans": [
+      {
+        "value": "user50@domain50.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "text": "Transaction approved for card 5500 0000 0000 0051.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0051",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "text": "Debug output: api_key=sk-auto-0052abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0052abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "text": "Sarah Johnson from Microsoft visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Sarah Johnson",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "text": "Callback requested at +1-555-154-2054 regarding order 54.",
+    "spans": [
+      {
+        "value": "+1-555-154-2054",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "text": "Please email test55.user@mail55.org for verification.",
+    "spans": [
+      {
+        "value": "test55.user@mail55.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "text": "Transaction approved for card 4111-1111-1111-0056.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0056",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "text": "Debug output: api_key=sk-auto-0057abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0057abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "text": "Lisa Park from Ege University visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Lisa Park",
+        "type": "person"
+      },
+      {
+        "value": "Ege University",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "text": "Callback requested at +1-555-159-2059 regarding order 59.",
+    "spans": [
+      {
+        "value": "+1-555-159-2059",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "text": "Please email user60@domain60.com for verification.",
+    "spans": [
+      {
+        "value": "user60@domain60.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "text": "Transaction approved for card 5500 0000 0000 0061.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0061",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "text": "Debug output: api_key=sk-auto-0062abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0062abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "text": "Lisa Park from Microsoft visited New York for a conference.",
+    "spans": [
+      {
+        "value": "Lisa Park",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "New York",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "text": "Callback requested at +1-555-164-2064 regarding order 64.",
+    "spans": [
+      {
+        "value": "+1-555-164-2064",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "text": "Please email test65.user@mail65.org for verification.",
+    "spans": [
+      {
+        "value": "test65.user@mail65.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "text": "Transaction approved for card 4111-1111-1111-0066.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0066",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "text": "Debug output: api_key=sk-auto-0067abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0067abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "text": "Ahmet Yilmaz from Ege University visited New York for a conference.",
+    "spans": [
+      {
+        "value": "Ahmet Yilmaz",
+        "type": "person"
+      },
+      {
+        "value": "Ege University",
+        "type": "org"
+      },
+      {
+        "value": "New York",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "text": "Callback requested at +1-555-169-2069 regarding order 69.",
+    "spans": [
+      {
+        "value": "+1-555-169-2069",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "text": "Please email user70@domain70.com for verification.",
+    "spans": [
+      {
+        "value": "user70@domain70.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "text": "Transaction approved for card 5500 0000 0000 0071.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0071",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "text": "Debug output: api_key=sk-auto-0072abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0072abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "text": "James Wilson from Microsoft visited Berlin for a conference.",
+    "spans": [
+      {
+        "value": "James Wilson",
+        "type": "person"
+      },
+      {
+        "value": "Microsoft",
+        "type": "org"
+      },
+      {
+        "value": "Berlin",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "text": "Callback requested at +1-555-174-2074 regarding order 74.",
+    "spans": [
+      {
+        "value": "+1-555-174-2074",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "text": "Please email test75.user@mail75.org for verification.",
+    "spans": [
+      {
+        "value": "test75.user@mail75.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "text": "Transaction approved for card 4111-1111-1111-0076.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0076",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "text": "Debug output: api_key=sk-auto-0077abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0077abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "text": "Lisa Park from Amazon Web Services visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Lisa Park",
+        "type": "person"
+      },
+      {
+        "value": "Amazon Web Services",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "text": "Callback requested at +1-555-179-2079 regarding order 79.",
+    "spans": [
+      {
+        "value": "+1-555-179-2079",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "text": "Please email user80@domain80.com for verification.",
+    "spans": [
+      {
+        "value": "user80@domain80.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "text": "Transaction approved for card 5500 0000 0000 0081.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0081",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "text": "Debug output: api_key=sk-auto-0082abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0082abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "text": "David Lee from Ege University visited Berlin for a conference.",
+    "spans": [
+      {
+        "value": "David Lee",
+        "type": "person"
+      },
+      {
+        "value": "Ege University",
+        "type": "org"
+      },
+      {
+        "value": "Berlin",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "text": "Callback requested at +1-555-184-2084 regarding order 84.",
+    "spans": [
+      {
+        "value": "+1-555-184-2084",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "text": "Please email test85.user@mail85.org for verification.",
+    "spans": [
+      {
+        "value": "test85.user@mail85.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "text": "Transaction approved for card 4111-1111-1111-0086.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0086",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "text": "Debug output: api_key=sk-auto-0087abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0087abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "text": "Anna Müller from Amazon Web Services visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Anna Müller",
+        "type": "person"
+      },
+      {
+        "value": "Amazon Web Services",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "text": "Callback requested at +1-555-189-2089 regarding order 89.",
+    "spans": [
+      {
+        "value": "+1-555-189-2089",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "text": "Please email user90@domain90.com for verification.",
+    "spans": [
+      {
+        "value": "user90@domain90.com",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "text": "Transaction approved for card 5500 0000 0000 0091.",
+    "spans": [
+      {
+        "value": "5500 0000 0000 0091",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "text": "Debug output: api_key=sk-auto-0092abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0092abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "text": "David Lee from Amazon Web Services visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "David Lee",
+        "type": "person"
+      },
+      {
+        "value": "Amazon Web Services",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "text": "Callback requested at +1-555-194-2094 regarding order 94.",
+    "spans": [
+      {
+        "value": "+1-555-194-2094",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "text": "Please email test95.user@mail95.org for verification.",
+    "spans": [
+      {
+        "value": "test95.user@mail95.org",
+        "type": "email"
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "text": "Transaction approved for card 4111-1111-1111-0096.",
+    "spans": [
+      {
+        "value": "4111-1111-1111-0096",
+        "type": "credit_card"
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "text": "Debug output: api_key=sk-auto-0097abcdefghijklmnopqrst",
+    "spans": [
+      {
+        "value": "sk-auto-0097abcdefghijklmnopqrst",
+        "type": "api_key"
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "text": "Sarah Johnson from Amazon Web Services visited Istanbul for a conference.",
+    "spans": [
+      {
+        "value": "Sarah Johnson",
+        "type": "person"
+      },
+      {
+        "value": "Amazon Web Services",
+        "type": "org"
+      },
+      {
+        "value": "Istanbul",
+        "type": "location"
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "text": "Callback requested at +1-555-199-2099 regarding order 99.",
+    "spans": [
+      {
+        "value": "+1-555-199-2099",
+        "type": "phone"
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "text": "Please email user100@domain100.com for verification.",
+    "spans": [
+      {
+        "value": "user100@domain100.com",
+        "type": "email"
+      }
+    ]
+  }
+]

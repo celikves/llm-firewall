@@ -14,8 +14,18 @@ def test_known_attacks_file_exists():
     path = ROOT / "data" / "known_attacks.json"
     assert path.exists()
     data = json.loads(path.read_text(encoding="utf-8"))
-    assert len(data) == 150
+    assert len(data) == 100
     assert "embedding" in data[0]
+
+
+def test_eval_datasets_exist():
+    for name in ("eval_seen", "eval_unseen", "eval_benign", "eval_dataset"):
+        path = ROOT / "data" / f"{name}.json"
+        assert path.exists(), f"Missing {path}"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        assert len(data) > 0
+        assert "category" in data[0]
+        assert "source" in data[0]
 
 
 def test_eval_dataset_balance():
@@ -26,6 +36,20 @@ def test_eval_dataset_balance():
     assert len(data) == 1000
     assert malicious == 500
     assert benign == 500
+
+
+def test_eval_holdout_not_in_db():
+    db = {item["pattern"] for item in json.loads((ROOT / "data" / "known_attacks_raw.json").read_text())}
+    holdout = json.loads((ROOT / "data" / "eval_holdout.json").read_text())
+    holdout_texts = {item["pattern"] for item in holdout}
+    assert db.isdisjoint(holdout_texts)
+
+
+def test_pii_eval_exists():
+    path = ROOT / "data" / "pii_eval.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    assert len(data) >= 100
+    assert "spans" in data[0]
 
 
 def test_keyword_baseline_detects_attack():

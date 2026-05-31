@@ -7,6 +7,8 @@ import streamlit as st
 API_BASE = "http://127.0.0.1:8000"
 ROOT = Path(__file__).resolve().parent
 EVAL_REPORT = ROOT / "results" / "eval_report.json"
+STAT_REPORT = ROOT / "results" / "statistical_report.json"
+PII_REPORT = ROOT / "results" / "pii_eval_report.json"
 
 EXAMPLES = {
     "Benign question": "What is the capital of France and why is it historically significant?",
@@ -24,11 +26,25 @@ PII_SAMPLE = (
 )
 
 
-def load_eval_metrics() -> dict | None:
-    if not EVAL_REPORT.exists():
+def load_json(path: Path) -> dict | None:
+    if not path.exists():
         return None
-    with open(EVAL_REPORT, encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def render_mode_metrics(label: str, modes: dict):
+    st.subheader(label)
+    for mode, m in modes.items():
+        ci = m.get("bootstrap_f1", {})
+        ci_str = ""
+        if ci:
+            ci_str = f" CI=[{ci.get('ci_lower', '?')}, {ci.get('ci_upper', '?')}]"
+        st.write(
+            f"**{mode}** — F1: {m.get('f1', '?')} | "
+            f"FPR: {m.get('fp_rate', '?')} | "
+            f"Latency: {m.get('latency_ms', {}).get('mean', '?')} ms{ci_str}"
+        )
 
 
 st.set_page_config(page_title="LLM Firewall Panel", layout="wide")
@@ -38,11 +54,13 @@ st.caption("Thesis project: semantic analysis → judge model → output filteri
 with st.expander("Architecture overview"):
     st.markdown(
         """
-        **Layer 1 — Semantic:** Cosine similarity vs 150 known attack embeddings (threshold 0.85).
+        **Layer 1 — Semantic:** Cosine similarity vs 100 known attack embeddings (threshold 0.85).
 
         **Layer 2 — Judge:** GPT-4o-mini classifies MALICIOUS vs BENIGN.
 
         **Layer 3 — Output filter:** Regex + spaCy NER masks PII before delivery.
+
+        **Eval splits:** `eval_seen` (holdout paraphrases) | `eval_unseen` (literature/novel)
         """
     )
 
@@ -92,12 +110,13 @@ with col2:
             if "layer_breakdown_ms" in data:
                 st.json(data["layer_breakdown_ms"])
 
-            if data["status"] == "APPROVED":
-                st.info("Layer 3 demo: filtering sample model output with PII")
+            st.info("Layer 3: filtering sample model output with PII")
+            pii_text = st.text_area("Output to filter (Layer 3 demo)", value=PII_SAMPLE, height=100)
+            if st.button("Run Layer 3 Filter"):
                 try:
                     filt = requests.post(
                         f"{API_BASE}/filter-output",
-                        json={"text": PII_SAMPLE},
+                        json={"text": pii_text},
                         timeout=30,
                     )
                     filt.raise_for_status()
@@ -109,27 +128,51 @@ with col2:
                     st.warning(f"Filter endpoint unavailable: {exc}")
 
 st.sidebar.header("Evaluation Metrics")
-metrics = load_eval_metrics()
+metrics = load_json(EVAL_REPORT)
+stats = load_json(STAT_REPORT)
+pii = load_json(PII_REPORT)
+
 if metrics:
-    for mode, m in metrics.get("modes", {}).items():
-        st.sidebar.subheader(mode.capitalize())
-        st.sidebar.write(f"F1: **{m['f1']}**")
-        st.sidebar.write(f"FP rate: **{m['fp_rate']}**")
-        st.sidebar.write(f"Avg latency: **{m['latency_ms']['mean']} ms**")
+    splits = metrics.get("splits", {})
+    if splits:
+        split_choice = st.sidebar.selectbox("Eval split", list(splits.keys()))
+        render_mode_metrics(split_choice, splits[split_choice].get("modes", {}))
+    elif metrics.get("modes"):
+        render_mode_metrics("Combined", metrics["modes"])
+
+    if stats and splits:
+        split_choice = split_choice if splits else "combined"
+        comp = stats.get("splits", {}).get(split_choice, {}).get("comparisons", {})
+        if comp:
+            st.sidebar.markdown("---")
+            st.sidebar.markdown("**Statistical tests**")
+            for name, c in comp.items():
+                sig = "✓" if c.get("significant_005") else "✗"
+                st.sidebar.write(f"{name}: p={c.get('p_value')} {sig}")
+
     targets = metrics.get("targets", {})
     st.sidebar.markdown("---")
     st.sidebar.markdown(
         f"Targets: F1 ≥ {targets.get('f1_min', 0.9)}, "
-        f"FP < {targets.get('fp_rate_max', 0.05)}, "
+        f"FPR < {targets.get('fp_rate_max', 0.05)}, "
         f"latency < {targets.get('latency_ms_max', 300)} ms"
     )
+
+    layer3 = metrics.get("layer3_pii") or pii
+    if layer3:
+        st.sidebar.markdown("---")
+        st.sidebar.markdown("**Layer 3 PII**")
+        st.sidebar.write(f"F1: **{layer3.get('f1', '?')}**")
+        st.sidebar.write(f"Recall: **{layer3.get('recall', '?')}**")
 else:
     st.sidebar.info(
         "No eval report yet. Run:\n"
-        "`python scripts/run_evaluation.py --limit 50`"
+        "`make thesis-report` or\n"
+        "`python scripts/run_evaluation.py --limit 50 --modes keyword`"
     )
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Run commands**")
 st.sidebar.code("uvicorn app:app --port 8000")
 st.sidebar.code("streamlit run dashboard.py")
+st.sidebar.code("make thesis-report")

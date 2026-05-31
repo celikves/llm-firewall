@@ -39,11 +39,14 @@ def main():
 
     result = []
     for item, embedding in zip(raw, all_embeddings):
-        result.append({
+        entry = {
             "id": item["id"],
             "pattern": item["pattern"],
             "embedding": embedding,
-        })
+        }
+        if "category" in item:
+            entry["category"] = item["category"]
+        result.append(entry)
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:
