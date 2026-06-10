@@ -1,0 +1,10 @@
+[
+  {"id": "q01", "query": "What is the refund policy?"},
+  {"id": "q02", "query": "How many days do I have to request a refund for a physical product?"},
+  {"id": "q03", "query": "What is the standard working hours policy?"},
+  {"id": "q04", "query": "How do I contact HR for benefits questions?"},
+  {"id": "q05", "query": "Can I work remotely as a hybrid employee?"},
+  {"id": "q06", "query": "What email should I use for billing support?"},
+  {"id": "q07", "query": "Are custom-made items eligible for refunds?"},
+  {"id": "q08", "query": "How much paid annual leave do full-time employees receive?"}
+]

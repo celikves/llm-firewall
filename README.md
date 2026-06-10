@@ -8,6 +8,8 @@ Middleware-style security for LLM applications against **prompt injection**. Thr
 | 2 | `core/judge_model.py` | GPT-4o-mini → `MALICIOUS` / `BENIGN` |
 | 3 | `core/output_filter.py` | Regex + spaCy NER masking |
 
+**RAG extension** (separate API on port 8001): retrieval index poisoning experiments with **L0 context guard** on retrieved chunks and **L3 exfil filter** on LLM output. See [docs/RAG_METHODOLOGY.md](docs/RAG_METHODOLOGY.md).
+
 ---
 
 ## Requirements
@@ -179,11 +181,36 @@ See [docs/THESIS_METHODOLOGY.md](docs/THESIS_METHODOLOGY.md) for full experiment
 
 ---
 
+## RAG module
+
+Separate from the firewall on port 8000. Requires `OPENAI_API_KEY` and seeded Chroma index.
+
+```bash
+make rag-seed          # index benign + poisoned corpora → chroma_db/
+make rag-eval          # bulk poisoning metrics → results/poisoning_eval.json
+make rag-demo-trace    # 3 demo scenarios with LangSmith tracing
+make rag-api           # FastAPI on http://127.0.0.1:8001
+make eval-exfil        # L3 URL/exfil phrase metrics
+```
+
+Example request:
+
+```bash
+curl -X POST http://localhost:8001/rag/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"What is the refund policy?","collection":"rag_poisoned","policy":"strip","call_llm":false}'
+```
+
+LangSmith (optional): set `RAG_TRACE_ENABLED=true` and LangSmith vars in `.env`, then `make rag-demo-trace`.
+
+---
+
 ## Project structure
 
 ```
 llm-firewall/
-├── app.py                      # FastAPI (/verify, /filter-output, /health)
+├── app.py                      # FastAPI firewall (/verify, /filter-output) :8000
+├── app_rag.py                  # FastAPI RAG pipeline (/rag/query) :8001
 ├── dashboard.py                # Streamlit demo
 ├── Makefile                    # macOS/Linux shortcuts
 ├── .env.example                # Configuration template
@@ -196,7 +223,9 @@ llm-firewall/
 │   ├── eval_unseen.json        # 300 malicious (literature/novel)
 │   ├── eval_benign.json        # 500 benign
 │   ├── eval_dataset.json       # 1000 combined
-│   └── pii_eval.json           # Layer 3 eval (~100 samples)
+│   ├── pii_eval.json           # Layer 3 PII eval (~100 samples)
+│   ├── exfil_eval.json         # RAG L3 exfil eval
+│   └── rag_corpus/             # benign + poisoned .txt for Chroma seed
 ├── scripts/
 │   ├── setup.sh
 │   ├── precompute_embeddings.py
@@ -207,10 +236,14 @@ llm-firewall/
 │   ├── run_evaluation.py
 │   ├── run_statistical_analysis.py
 │   ├── threshold_sweep.py
-│   └── evaluate_output_filter.py
+│   ├── evaluate_output_filter.py
+│   ├── evaluate_exfil_filter.py
+│   ├── seed_rag_index.py
+│   └── run_poisoning_eval.py
 ├── docs/
 │   ├── PRESENTATION.md
-│   └── THESIS_METHODOLOGY.md
+│   ├── THESIS_METHODOLOGY.md
+│   └── RAG_METHODOLOGY.md
 └── results/                    # Generated metrics (local only)
 ```
 
@@ -232,6 +265,11 @@ llm-firewall/
 | `make thesis-report` | Full thesis evaluation pipeline |
 | `make data` | Regenerate patterns + eval datasets |
 | `make precompute` | Rebuild attack embeddings |
+| `make rag-seed` | Seed Chroma (`rag_clean` + `rag_poisoned`) |
+| `make rag-eval` | RAG poisoning bulk eval |
+| `make rag-demo-trace` | Traced demo scenarios (LangSmith) |
+| `make rag-api` | RAG FastAPI on port 8001 |
+| `make eval-exfil` | RAG L3 exfil filter metrics |
 
 ---
 
