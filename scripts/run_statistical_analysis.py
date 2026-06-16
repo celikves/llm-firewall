@@ -30,7 +30,7 @@ def mcnemar_test(y_true: list[int], pred_a: list[int], pred_b: list[int]) -> dic
         "c": c,
         "chi2": round(float(chi2_stat), 4),
         "p_value": round(float(p_value), 6),
-        "significant_005": p_value < 0.05,
+        "significant_005": bool(float(p_value) < 0.05),
     }
 
 

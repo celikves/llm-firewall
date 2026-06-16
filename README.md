@@ -8,7 +8,7 @@ Middleware-style security for LLM applications against **prompt injection**. Thr
 | 2 | `core/judge_model.py` | GPT-4o-mini → `MALICIOUS` / `BENIGN` |
 | 3 | `core/output_filter.py` | Regex + spaCy NER masking |
 
-**RAG extension** (separate API on port 8001): retrieval index poisoning experiments with **L0 context guard** on retrieved chunks and **L3 exfil filter** on LLM output. See [docs/RAG_METHODOLOGY.md](docs/RAG_METHODOLOGY.md).
+**RAG extension** (separate API on port 8010): retrieval index poisoning experiments with **L0 context guard** on retrieved chunks and **L3 exfil filter** on LLM output. See [docs/RAG_METHODOLOGY.md](docs/RAG_METHODOLOGY.md).
 
 ---
 
@@ -189,14 +189,14 @@ Separate from the firewall on port 8000. Requires `OPENAI_API_KEY` and seeded Ch
 make rag-seed          # index benign + poisoned corpora → chroma_db/
 make rag-eval          # bulk poisoning metrics → results/poisoning_eval.json
 make rag-demo-trace    # 3 demo scenarios with LangSmith tracing
-make rag-api           # FastAPI on http://127.0.0.1:8001
+make rag-api           # FastAPI on http://127.0.0.1:8010
 make eval-exfil        # L3 URL/exfil phrase metrics
 ```
 
 Example request:
 
 ```bash
-curl -X POST http://localhost:8001/rag/query \
+curl -X POST http://localhost:8010/rag/query \
   -H "Content-Type: application/json" \
   -d '{"query":"What is the refund policy?","collection":"rag_poisoned","policy":"strip","call_llm":false}'
 ```
@@ -210,7 +210,7 @@ LangSmith (optional): set `RAG_TRACE_ENABLED=true` and LangSmith vars in `.env`,
 ```
 llm-firewall/
 ├── app.py                      # FastAPI firewall (/verify, /filter-output) :8000
-├── app_rag.py                  # FastAPI RAG pipeline (/rag/query) :8001
+├── app_rag.py                  # FastAPI RAG pipeline (/rag/query) :8010
 ├── dashboard.py                # Streamlit demo
 ├── Makefile                    # macOS/Linux shortcuts
 ├── .env.example                # Configuration template
@@ -268,7 +268,7 @@ llm-firewall/
 | `make rag-seed` | Seed Chroma (`rag_clean` + `rag_poisoned`) |
 | `make rag-eval` | RAG poisoning bulk eval |
 | `make rag-demo-trace` | Traced demo scenarios (LangSmith) |
-| `make rag-api` | RAG FastAPI on port 8001 |
+| `make rag-api` | RAG FastAPI on port 8010 (`RAG_API_PORT` in `.env`) |
 | `make eval-exfil` | RAG L3 exfil filter metrics |
 
 ---

@@ -1,6 +1,6 @@
 """Thin wrappers around L1 SemanticAnalyzer and L2 JudgeModel for L0 context scanning."""
 from core.judge_model import JudgeModel
-from core.rag.tracing import maybe_traceable
+from core.rag.tracing import maybe_traceable, set_run_metadata, set_run_outputs
 from core.semantic_analyzer import SemanticAnalyzer
 
 
@@ -8,14 +8,20 @@ from core.semantic_analyzer import SemanticAnalyzer
 def semantic_scan(text: str, analyzer: SemanticAnalyzer | None = None) -> tuple[bool, float]:
     """Return (is_attack, max_similarity) using Layer 1."""
     layer = analyzer or SemanticAnalyzer()
-    return layer.analyze(text)
+    is_attack, similarity = layer.analyze(text)
+    set_run_metadata(is_attack=is_attack, similarity=round(similarity, 4))
+    set_run_outputs(is_attack=is_attack, similarity=round(similarity, 4), verdict="MALICIOUS" if is_attack else "BENIGN")
+    return is_attack, similarity
 
 
 @maybe_traceable(name="L2_judge", run_type="llm")
 def judge_scan(text: str, judge: JudgeModel | None = None) -> bool:
     """Return True if Layer 2 flags the text as MALICIOUS."""
     layer = judge or JudgeModel()
-    return layer.analyze(text)
+    malicious = layer.analyze(text)
+    set_run_metadata(l2_malicious=malicious)
+    set_run_outputs(verdict="MALICIOUS" if malicious else "BENIGN")
+    return malicious
 
 
 def full_scan(

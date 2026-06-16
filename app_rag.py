@@ -1,4 +1,4 @@
-"""FastAPI entry point for the RAG pipeline (separate from firewall on :8000)."""
+"""FastAPI entry point for the RAG pipeline (separate from firewall on :8000, default :8010)."""
 import os
 import time
 from functools import lru_cache

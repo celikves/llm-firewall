@@ -1,5 +1,5 @@
-.PHONY: setup install api demo test eval eval-full eval-stats eval-threshold eval-pii eval-exfil thesis-report precompute data \
-	rag-seed rag-eval rag-demo-trace rag-api
+.PHONY: setup install api demo dashboard test eval eval-full eval-stats eval-threshold eval-pii eval-exfil thesis-report precompute data \
+	rag-seed rag-eval rag-demo-trace langsmith-figures rag-api
 
 # Prefer 3.11+ when default python3 is 3.9 (see scripts/setup.sh)
 PYTHON ?= $(shell for p in python3.12 python3.11 python3.10 python3; do \
@@ -24,8 +24,8 @@ data:
 api:
 	uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
-demo:
-	@echo "Dashboard: http://localhost:8501  (tabs: Firewall :8000 | RAG :8001)"
+demo dashboard:
+	@echo "Dashboard: http://localhost:8501  (tabs: Firewall :8000 | RAG :$(RAG_API_PORT))"
 	@echo "Start APIs first: make api  AND  make rag-api"
 	streamlit run dashboard.py
 
@@ -54,6 +54,7 @@ thesis-report: eval-full eval-stats eval-threshold eval-pii
 	@echo "Thesis reports written to results/"
 
 RAG_PYTHON ?= .venv/bin/python
+RAG_API_PORT ?= 8010
 
 rag-seed:
 	$(RAG_PYTHON) scripts/seed_rag_index.py --mode clean
@@ -65,6 +66,9 @@ rag-eval:
 rag-demo-trace:
 	RAG_TRACE_ENABLED=true $(RAG_PYTHON) scripts/run_poisoning_eval.py --demo-only
 
+langsmith-figures:
+	RAG_TRACE_ENABLED=true $(RAG_PYTHON) scripts/run_langsmith_figures.py
+
 rag-api:
-	@echo "RAG API :8001 — LangSmith traces when LANGSMITH_TRACING=true in .env"
-	uvicorn app_rag:app --reload --host 0.0.0.0 --port 8001
+	@echo "RAG API :$(RAG_API_PORT) — LangSmith traces when LANGSMITH_TRACING=true in .env"
+	uvicorn app_rag:app --reload --host 0.0.0.0 --port $(RAG_API_PORT)

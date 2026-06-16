@@ -59,3 +59,19 @@ def set_run_metadata(**metadata: Any) -> None:
             run.metadata.update(metadata)
     except ImportError:
         pass
+
+
+def set_run_outputs(**outputs: Any) -> None:
+    """Attach outputs to the current LangSmith run (visible in Output tab)."""
+    if not is_rag_trace_enabled():
+        return
+    try:
+        from langsmith.run_helpers import get_current_run_tree
+
+        run = get_current_run_tree()
+        if run is not None:
+            if run.outputs is None:
+                run.outputs = {}
+            run.outputs.update(outputs)
+    except ImportError:
+        pass

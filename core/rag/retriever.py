@@ -3,7 +3,7 @@ import chromadb
 
 from core.rag.config import RAGConfig
 from core.rag.embedder import Embedder
-from core.rag.tracing import maybe_traceable, set_run_metadata
+from core.rag.tracing import maybe_traceable, set_run_metadata, set_run_outputs
 
 POISONED_SOURCES = frozenset({"index_poisoning.txt", "exfil_instructions.txt"})
 
@@ -50,19 +50,43 @@ class RAGRetriever:
         metadatas = results["metadatas"][0]
         distances = results["distances"][0]
 
-        chunks = [
-            {
-                "id": doc_id,
-                "text": text,
-                "metadata": meta or {},
-                "score": round(1.0 - distance, 6),
-            }
-            for doc_id, text, meta, distance in zip(ids, documents, metadatas, distances)
-        ]
+        chunks = []
+        for doc_id, text, meta, distance in zip(ids, documents, metadatas, distances):
+            source = (meta or {}).get("source", "")
+            poisoned = is_poisoned_source(source)
+            chunks.append(
+                {
+                    "id": doc_id,
+                    "text": text,
+                    "metadata": meta or {},
+                    "score": round(1.0 - distance, 6),
+                    "poisoned_source": poisoned,
+                    "source": source or "unknown",
+                }
+            )
+
+        poisoned_chunks = [c for c in chunks if c["poisoned_source"]]
         set_run_metadata(
-            poisoned_in_results=any(
-                is_poisoned_source(c["metadata"].get("source", "")) for c in chunks
-            ),
+            collection=self.collection_name,
+            poisoned_in_results=bool(poisoned_chunks),
+            poisoned_chunk_count=len(poisoned_chunks),
+            poisoned_chunk_ids=[c["id"] for c in poisoned_chunks],
+            poisoned_sources=sorted({c["source"] for c in poisoned_chunks}),
             chunk_ids=[c["id"] for c in chunks],
+            chunk_sources=[c["source"] for c in chunks],
+        )
+        set_run_outputs(
+            retrieved_count=len(chunks),
+            poisoned_in_results=bool(poisoned_chunks),
+            chunks=[
+                {
+                    "id": c["id"],
+                    "source": c["source"],
+                    "poisoned_source": c["poisoned_source"],
+                    "score": c["score"],
+                    "text_preview": c["text"][:120] + ("…" if len(c["text"]) > 120 else ""),
+                }
+                for c in chunks
+            ],
         )
         return chunks

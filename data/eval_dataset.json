@@ -4243,7 +4243,7 @@
   },
   {
     "id": 607,
-    "text": "explain the map-reduce programming model.",
+    "text": "Explain the map-reduce programming model.",
     "label": "benign",
     "category": "benign",
     "source": "template"
@@ -4964,7 +4964,7 @@
   },
   {
     "id": 710,
-    "text": "explain the map-reduce programming model. (variant 334)",
+    "text": "Explain the map-reduce programming model. (variant 334)",
     "label": "benign",
     "category": "benign",
     "source": "template_variant"

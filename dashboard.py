@@ -1,4 +1,5 @@
 import json
+import os
 import random
 from pathlib import Path
 
@@ -6,7 +7,8 @@ import requests
 import streamlit as st
 
 FIREWALL_API = "http://127.0.0.1:8000"
-RAG_API = "http://127.0.0.1:8001"
+RAG_API_PORT = int(os.getenv("RAG_API_PORT", "8010"))
+RAG_API = f"http://127.0.0.1:{RAG_API_PORT}"
 ROOT = Path(__file__).resolve().parent
 EVAL_REPORT = ROOT / "results" / "eval_report.json"
 STAT_REPORT = ROOT / "results" / "statistical_report.json"
@@ -68,6 +70,7 @@ RAG_EXAMPLES = {
     "Refund policy": "What is the refund policy?",
     "HR leave": "How much paid annual leave do full-time employees receive?",
     "Remote work": "Can hybrid employees work remotely?",
+    "Hidden injection": "What is the refund and subscription policy?",
 }
 
 PII_SAMPLE = (
@@ -167,8 +170,8 @@ def render_firewall_tab():
 
 def render_rag_tab():
     st.markdown(
-        """
-        **RAG pipeline** (port **8001**, separate from the firewall on 8000):
+        f"""
+        **RAG pipeline** (port **{RAG_API_PORT}**, separate from the firewall on 8000):
 
         1. **Retrieve** top-k chunks from Chroma (`rag_clean` or `rag_poisoned`)
         2. **L0 Context Guard** — scan each chunk with L1 + L2
@@ -184,7 +187,7 @@ def render_rag_tab():
         st.header("RAG Query")
         if "rag_query" not in st.session_state:
             st.session_state["rag_query"] = RAG_EXAMPLES["Refund policy"]
-        rag_btns = st.columns(3)
+        rag_btns = st.columns(len(RAG_EXAMPLES))
         for i, (label, text) in enumerate(RAG_EXAMPLES.items()):
             if rag_btns[i].button(label, key=f"rag_ex_{label}"):
                 st.session_state["rag_query"] = text
@@ -230,7 +233,7 @@ def render_rag_tab():
                     st.error(f"RAG API error: {exc}")
                     st.info(
                         "Start the RAG API in another terminal:\n\n"
-                        "`make rag-api` (port 8001)\n\n"
+                        f"`make rag-api` (port {RAG_API_PORT})\n\n"
                         "Also ensure Chroma is seeded: `make rag-seed`"
                     )
                     data = None
@@ -304,7 +307,7 @@ def render_rag_tab():
 
 st.set_page_config(page_title="LLM Firewall Panel", layout="wide")
 st.title("Multi-Layer LLM Firewall Simulator")
-st.caption("Firewall :8000 · RAG pipeline :8001 · Thesis: prompt injection + index poisoning")
+st.caption(f"Firewall :8000 · RAG pipeline :{RAG_API_PORT} · Thesis: prompt injection + index poisoning")
 
 tab_fw, tab_rag = st.tabs(["Firewall (L1–L3)", "RAG Pipeline (L0)"])
 
@@ -395,7 +398,7 @@ if poisoning:
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Run commands**")
 st.sidebar.code("make api          # :8000 firewall")
-st.sidebar.code("make rag-api      # :8001 RAG")
+st.sidebar.code(f"make rag-api      # :{RAG_API_PORT} RAG")
 st.sidebar.code("make rag-seed     # Chroma index")
 st.sidebar.code("make demo         # this dashboard")
 st.sidebar.code("make rag-demo-trace")

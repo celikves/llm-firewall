@@ -11,7 +11,8 @@ from core.rag.context_builder import build_context
 from core.rag.context_guard import GuardResult, Policy, scan_chunks
 from core.rag.output_guard import filter_exfil_output
 from core.rag.retriever import RAGRetriever
-from core.rag.tracing import maybe_traceable
+from core.rag.retriever import is_poisoned_source
+from core.rag.tracing import maybe_traceable, set_run_metadata, set_run_outputs
 from core.semantic_analyzer import SemanticAnalyzer
 
 DEFAULT_SYSTEM = (
@@ -32,6 +33,24 @@ class RAGQueryResult:
 
 @maybe_traceable(name="build_prompt", run_type="tool")
 def _build_prompt(system: str, user_query: str, chunks: list[dict]) -> str:
+    set_run_metadata(
+        chunks_in_prompt=len(chunks),
+        poisoned_in_prompt=any(
+            c.get("poisoned_source") or is_poisoned_source(c.get("metadata", {}).get("source", ""))
+            for c in chunks
+        ),
+    )
+    set_run_outputs(
+        chunks_in_prompt=[
+            {
+                "id": c.get("id"),
+                "source": c.get("source") or c.get("metadata", {}).get("source"),
+                "poisoned_source": c.get("poisoned_source")
+                or is_poisoned_source(c.get("metadata", {}).get("source", "")),
+            }
+            for c in chunks
+        ],
+    )
     return build_context(system, user_query, chunks)
 
 
@@ -70,18 +89,32 @@ def rag_query(
     judge: JudgeModel | None = None,
     call_llm: bool = False,
     llm_client: OpenAI | None = None,
+    scenario_name: str | None = None,
 ) -> RAGQueryResult:
     """retrieve → L0 context guard → user verify → build_prompt [→ LLM → L3]."""
     cfg = config or RAGConfig.from_env()
-    rag = retriever or RAGRetriever(cfg, collection_name=collection_name or cfg.collection_poisoned)
+    resolved_collection = collection_name or cfg.collection_poisoned
+    rag = retriever or RAGRetriever(cfg, collection_name=resolved_collection)
+
+    meta: dict = {
+        "collection": resolved_collection,
+        "policy": policy,
+        "user_query": user_query,
+        "call_llm": call_llm,
+    }
+    if scenario_name:
+        meta["scenario_name"] = scenario_name
+    set_run_metadata(**meta)
 
     chunks = rag.retrieve(user_query, top_k=top_k)
     guard = scan_chunks(chunks, policy=policy, analyzer=analyzer, judge=judge)
     if guard.status == "REJECTED":
+        set_run_outputs(status="REJECTED", rejected_at="L0")
         return RAGQueryResult(status="REJECTED", guard=guard, rejected_at="L0")
 
     user_result = _verify_user_query(user_query, analyzer, judge)
     if user_result.status == "REJECTED":
+        set_run_outputs(status="REJECTED", rejected_at="user_verify")
         return RAGQueryResult(
             status="REJECTED",
             guard=guard,
@@ -97,6 +130,7 @@ def rag_query(
         llm_response = _call_llm(prompt, llm_client)
         filtered_response = filter_exfil_output(llm_response)
 
+    set_run_outputs(status="APPROVED", chunks_kept=len(guard.chunks))
     return RAGQueryResult(
         status="APPROVED",
         prompt=prompt,
